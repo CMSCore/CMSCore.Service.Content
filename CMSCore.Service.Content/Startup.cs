@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace CMSCore.Service.Content
+﻿namespace CMSCore.Service.Content
 {
+    using System;
     using System.Threading.Tasks;
     using Library.GrainInterfaces;
     using Microsoft.AspNetCore.Builder;
@@ -12,6 +11,7 @@ namespace CMSCore.Service.Content
     using Orleans;
     using Orleans.Configuration;
     using Orleans.Hosting;
+    using Swashbuckle.AspNetCore.Swagger;
 
     public class Startup
     {
@@ -26,6 +26,10 @@ namespace CMSCore.Service.Content
         {
             services.AddMvc();
             services.AddSingleton<IClusterClient>(CreateClusterClient);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "CMSCore.Service.Content", Version = "v1", Description = "Content delivery API for CMSCore" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
@@ -34,6 +38,12 @@ namespace CMSCore.Service.Content
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore.Service.Content");
+            });
 
             app.UseMvc();
             app.UseDefaultFiles();
