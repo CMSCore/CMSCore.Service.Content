@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+     <TargetFramework>netcoreapp2.0</TargetFramework>
+     <ApplicationIcon />
+     <OutputType>Exe</OutputType>
+     <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CMSCore.Library.GrainInterfaces\CMSCore.Library.GrainInterfaces\CMSCore.Library.GrainInterfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
