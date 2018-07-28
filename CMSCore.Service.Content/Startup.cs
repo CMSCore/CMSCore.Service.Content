@@ -2,7 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Library.Data.Models;
     using Library.GrainInterfaces;
+    using Library.Messages;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -55,7 +57,14 @@
             var log = serviceProvider.GetService<ILogger<Startup>>();
 
             var client = new ClientBuilder()
-                .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(IReadContentGrain).Assembly).WithCodeGeneration())
+                .ConfigureApplicationParts(parts =>
+                {
+                    parts.AddApplicationPart(typeof(IReadContentGrain).Assembly).WithCodeGeneration();
+                    parts.AddApplicationPart(typeof(FeedViewModel).Assembly).WithReferences();
+                    //parts.AddApplicationPart(typeof(ReadContentRepository).Assembly).WithReferences();
+                    //parts.AddApplicationPart(typeof(Page).Assembly).WithReferences();
+                    
+                })
                 //.Configure<ClusterOptions>(options =>
                 //{
                 //    options.ClusterId = "orleans-docker";

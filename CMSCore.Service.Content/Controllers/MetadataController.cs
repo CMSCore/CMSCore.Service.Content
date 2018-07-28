@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
 
-    [Route("api/v1/metadata")]
+    [Route("api/v1/[controller]")]
     public class MetadataController : Controller
     {
         private readonly IClusterClient _client;
@@ -19,17 +19,19 @@
         [HttpGet("links")]
         public async Task<IActionResult> Links()
         {
-            var grain = this._client.GetGrain<IReadContentGrain>(Guid.Empty.ToString());
+            var grain = this._client.GetGrain<IReadContentGrain>(Guid.NewGuid().ToString());
             var result = await grain.GetPageTree();
-            return Json(result);
+            var value = result.Value;
+            return Json(value);
         }
 
         [HttpGet("tags")]
         public async Task<IActionResult> Tags()
         {
-            var grain = this._client.GetGrain<IReadContentGrain>(Guid.Empty.ToString());
+            var grain = this._client.GetGrain<IReadContentGrain>(Guid.NewGuid().ToString());
             var result = await grain.GetTags();
-            return Json(result);
+            var value = result.Value;
+            return Json(value);
         }
     }
 }

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CMSCore.Library.Core\CMSCore.Library.Core\CMSCore.Library.Core.csproj" />
     <ProjectReference Include="..\..\CMSCore.Library.GrainInterfaces\CMSCore.Library.GrainInterfaces\CMSCore.Library.GrainInterfaces.csproj" />
   </ItemGroup>
 

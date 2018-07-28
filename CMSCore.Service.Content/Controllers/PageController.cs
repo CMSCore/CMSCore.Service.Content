@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
 
-    [Route("api/v1/page")]
+    [Route("api/v1/[controller]")]
     public class PageController : Controller
     {
         private readonly IClusterClient _client;
@@ -20,7 +20,8 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(name);
             var result = await grain.GetPageByNormalizedName();
-            return Json(result);
+            var value = result.Value;
+            return Json(value);
         }
 
         [HttpGet("id/{id}")]
@@ -28,7 +29,8 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(id);
             var result = await grain.GetPageById();
-            return Json(result);
+            var value = result.Value;
+            return Json(value);
         }
     }
 }
