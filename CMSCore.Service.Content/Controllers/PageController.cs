@@ -6,11 +6,11 @@
     using Orleans;
 
     [Route("api/v1/[controller]")]
-    public class PageController : Controller
+    public class PageController : GrainController
     {
         private readonly IClusterClient _client;
 
-        public PageController(IClusterClient client)
+        public PageController(IClusterClient client) : base(client)
         {
             this._client = client;
         }
@@ -20,7 +20,7 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(name);
             var result = await grain.GetPageByNormalizedName();
-            var value = result.Value;
+            var value = result;
             return Json(value);
         }
 
@@ -29,7 +29,7 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(id);
             var result = await grain.GetPageById();
-            var value = result.Value;
+            var value = result;
             return Json(value);
         }
     }

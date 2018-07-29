@@ -5,13 +5,14 @@
     using Library.GrainInterfaces;
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
+    using Orleans.Core;
 
     [Route("api/v1/[controller]")]
-    public class MetadataController : Controller
+    public class MetadataController : GrainController
     {
         private readonly IClusterClient _client;
 
-        public MetadataController(IClusterClient client)
+        public MetadataController(IClusterClient client) : base(client)
         {
             this._client = client;
         }
@@ -21,7 +22,7 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(Guid.NewGuid().ToString());
             var result = await grain.GetPageTree();
-            var value = result.Value;
+            var value = result;
             return Json(value);
         }
 
@@ -30,7 +31,7 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(Guid.NewGuid().ToString());
             var result = await grain.GetTags();
-            var value = result.Value;
+            var value = result;
             return Json(value);
         }
     }

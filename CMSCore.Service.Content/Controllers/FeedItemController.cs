@@ -8,11 +8,11 @@
     using Orleans;
 
     [Route("api/v1/[controller]")]
-    public class FeedItemController : Controller
+    public class FeedItemController : GrainController
     {
         private readonly IClusterClient _client;
 
-        public FeedItemController(IClusterClient client)
+        public FeedItemController(IClusterClient client) : base(client)
         {
             this._client = client;
         }
@@ -23,7 +23,7 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(name);
             var result = await grain.GetFeedItemByNormalizedName();
-            var value = result.Value;
+            var value = result;
             return Json(value);
         }
 
@@ -33,7 +33,7 @@
         {
             var grain = this._client.GetGrain<IReadContentGrain>(id);
             var result = await grain.GetFeedItem();
-            var value = result.Value;
+            var value = result;
             return Json(value);
         }
     }
