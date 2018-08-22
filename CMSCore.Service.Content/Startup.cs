@@ -28,10 +28,10 @@
         {
             services.AddMvc();
             services.AddSingleton<IClusterClient>(CreateClusterClient);
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "CMSCore.Service.Content", Version = "v1", Description = "Content delivery API for CMSCore" });
-            });
+
+            services.AddCors(cors => { cors.AddPolicy("client", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod().AllowCredentials().Build()); });
+
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "CMSCore.Service.Content", Version = "v1", Description = "Content delivery API for CMSCore" }); });
         }
 
         public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
@@ -42,10 +42,8 @@
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore.Service.Content");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore.Service.Content"); });
+            app.UseCors("client");
 
             app.UseMvc();
             app.UseDefaultFiles();
@@ -63,7 +61,6 @@
                     parts.AddApplicationPart(typeof(FeedViewModel).Assembly).WithReferences();
                     //parts.AddApplicationPart(typeof(ReadContentRepository).Assembly).WithReferences();
                     //parts.AddApplicationPart(typeof(Page).Assembly).WithReferences();
-                    
                 })
                 //.Configure<ClusterOptions>(options =>
                 //{
